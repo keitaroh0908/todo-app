@@ -26,3 +26,7 @@ module "cloudfront" {
   images_bucket_regional_domain_name = module.s3.images_bucket_regional_domain_name
   logs_bucket_regional_domain_name   = module.s3.logs_bucket_regional_domain_name
 }
+
+module "dynamodb" {
+  source = "./services/dynamodb"
+}
