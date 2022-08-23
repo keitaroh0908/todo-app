@@ -30,3 +30,10 @@ module "cloudfront" {
 module "dynamodb" {
   source = "./services/dynamodb"
 }
+
+module "lambda" {
+  source = "./services/lambda"
+
+  account_id          = var.account_id
+  dynamodb_table_name = module.dynamodb.table_name
+}
