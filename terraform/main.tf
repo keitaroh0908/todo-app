@@ -10,6 +10,10 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
+module "api_gateway" {
+  source = "./services/api_gateway"
+}
+
 module "cognito" {
   source = "./services/cognito"
 }
