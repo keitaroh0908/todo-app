@@ -18,6 +18,10 @@ module "s3" {
   source = "./services/s3"
 }
 
+module "cognito" {
+  source = "./services/cognito"
+}
+
 module "dynamodb" {
   source = "./services/dynamodb"
 }
