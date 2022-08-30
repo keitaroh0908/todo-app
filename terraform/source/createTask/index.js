@@ -2,18 +2,17 @@ const AWS = require('aws-sdk')
 const docClient = new AWS.DynamoDB.DocumentClient()
 
 exports.handler = (event, context, callback) => {
-    const nowDateTime = new Date()
-    const nowDateTimeISO8601 = nowDateTime.toISOString()
+    const now = new Date().toISOString()
 
     const params = {
         TableName: process.env.TABLE_NAME,
         Item: {
-            UserId: event.requestContext.authorizer.claims['cognito:username'],
-            TaskId: generateUUID(),
-            Title: event.body.title,
-            IsCompletion: false,
-            CreatedAt: nowDateTimeISO8601,
-            UpdatedAt: nowDateTimeISO8601
+            userId: event.requestContext.authorizer.claims['cognito:username'],
+            taskId: generateUUID(),
+            title: event.body.title,
+            isCompletion: false,
+            createdAt: now,
+            updatedAt: now
         }
     }
 

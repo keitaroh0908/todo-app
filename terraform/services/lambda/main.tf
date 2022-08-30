@@ -1,4 +1,4 @@
-module "createTask" {
+module "create_task" {
   source = "../../elements/lambda/function"
 
   function_name       = "createTask"
@@ -6,7 +6,7 @@ module "createTask" {
   dynamodb_table_name = var.dynamodb_table_name
 }
 
-module "getTask" {
+module "get_task" {
   source = "../../elements/lambda/function"
 
   function_name       = "getTask"
@@ -14,18 +14,18 @@ module "getTask" {
   dynamodb_table_name = var.dynamodb_table_name
 }
 
-module "setTaskCompletion" {
+module "get_tasks_by_user_id" {
   source = "../../elements/lambda/function"
 
-  function_name       = "setTaskCompletion"
+  function_name       = "getTasksByUserId"
   account_id          = var.account_id
   dynamodb_table_name = var.dynamodb_table_name
 }
 
-module "updateTaskTitle" {
+module "update_task" {
   source = "../../elements/lambda/function"
 
-  function_name       = "updateTaskTitle"
+  function_name       = "updateTask"
   account_id          = var.account_id
   dynamodb_table_name = var.dynamodb_table_name
 }

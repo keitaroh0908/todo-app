@@ -4,17 +4,13 @@ const docClient = new AWS.DynamoDB.DocumentClient()
 exports.handler = (event, context, callback) => {
     const params = {
         TableName: process.env.TABLE_NAME,
-        Key: {
-            UserId: event.requestContext.authorizer.claims['cognito:username'],
-            TaskId: event.body.taskId
-        },
-        UpdateExpression: 'SET Title = :title',
+        KeyConditionExpression: 'userId = :userId',
         ExpressionAttributeValues: {
-            ":title": event.body.title
+            ':userId': event.requestContext.authorizer.claims['cognito:username']
         }
     }
 
-    docClient.update(params, function(err, data) {
+    docClient.query(params, function(err, data) {
         if (err) {
             callback(Error(err))
         } else {

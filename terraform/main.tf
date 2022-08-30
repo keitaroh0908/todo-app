@@ -12,6 +12,12 @@ provider "aws" {
 
 module "api_gateway" {
   source = "./services/api_gateway"
+
+  cognito_user_pool_name                 = module.cognito.cognito_user_pool_name
+  get_task_lambda_invoke_arn             = module.lambda.get_task_invoke_arn
+  get_tasks_by_user_id_lambda_invoke_arn = module.lambda.get_tasks_by_user_id_invoke_arn
+  create_task_lambda_invoke_arn          = module.lambda.create_task_invoke_arn
+  update_task_lambda_invoke_arn          = module.lambda.update_task_invoke_arn
 }
 
 module "cognito" {

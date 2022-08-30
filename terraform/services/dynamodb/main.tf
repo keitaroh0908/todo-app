@@ -1,18 +1,18 @@
 resource "aws_dynamodb_table" "this" {
-  hash_key       = "UserId"
-  range_key      = "TaskId"
-  name           = "Task"
+  hash_key       = "userId"
+  range_key      = "taskId"
+  name           = "tasks"
   billing_mode   = "PROVISIONED"
   read_capacity  = 1
   write_capacity = 1
 
   attribute {
-    name = "UserId"
+    name = "userId"
     type = "S"
   }
 
   attribute {
-    name = "TaskId"
+    name = "taskId"
     type = "S"
   }
 }

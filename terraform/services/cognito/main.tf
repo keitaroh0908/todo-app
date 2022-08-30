@@ -2,12 +2,14 @@ resource "aws_cognito_user_pool" "this" {
   name = "task_user_pool"
 }
 
-resource "aws_cognito_user_pool_client" "this" {
-  name            = "task_user_pool_client"
-  user_pool_id    = aws_cognito_user_pool.this.id
-  generate_secret = false
+resource "aws_cognito_user_pool_domain" "this" {
+  domain       = "bs219031-task"
+  user_pool_id = aws_cognito_user_pool.this.id
+}
 
-  prevent_user_existence_errors = "ENABLED"
+resource "aws_cognito_user_pool_client" "this" {
+  name         = "task_user_pool_client"
+  user_pool_id = aws_cognito_user_pool.this.id
 }
 
 resource "aws_cognito_identity_pool" "this" {
