@@ -8,8 +8,14 @@ resource "aws_cognito_user_pool_domain" "this" {
 }
 
 resource "aws_cognito_user_pool_client" "this" {
-  name         = "task_user_pool_client"
-  user_pool_id = aws_cognito_user_pool.this.id
+  name                                 = "task_user_pool_client"
+  user_pool_id                         = aws_cognito_user_pool.this.id
+  callback_urls                        = ["http://localhost:3000/api/auth/callback/cognito"]
+  logout_urls                          = ["http://localhost:3000"]
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows                  = ["code"]
+  allowed_oauth_scopes                 = ["email", "openid"]
+  supported_identity_providers         = ["COGNITO"]
 }
 
 resource "aws_cognito_identity_pool" "this" {
