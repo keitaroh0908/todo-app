@@ -9,6 +9,7 @@ resource "aws_cognito_user_pool_domain" "this" {
 
 resource "aws_cognito_user_pool_client" "this" {
   name                                 = "task_user_pool_client"
+  generate_secret                      = true
   user_pool_id                         = aws_cognito_user_pool.this.id
   callback_urls                        = ["http://localhost:3000/api/auth/callback/cognito"]
   logout_urls                          = ["http://localhost:3000"]
