@@ -148,43 +148,23 @@ module "resource_tasks_taskId" {
   path_part   = "{taskId}"
 }
 
-# Method: GET
-module "method_get_tasks_taskId" {
+# Method: DELETE
+
+module "method_delete_tasks_taskId" {
   source = "../../elements/api_gateway/method"
 
   rest_api_id   = aws_api_gateway_rest_api.this.id
   resource_id   = module.resource_tasks_taskId.id
-  http_method   = "GET"
+  http_method   = "DELETE"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.this.id
 }
 
-module "integration_get_tasks_taskId" {
+module "integration_delete_tasks_taskId" {
   source = "../../elements/api_gateway/integration"
 
   rest_api_id       = aws_api_gateway_rest_api.this.id
   resource_id       = module.resource_tasks_taskId.id
-  http_method       = module.method_get_tasks_taskId.http_method
-  lambda_invoke_arn = var.get_task_lambda_invoke_arn
-}
-
-# Method: PUT
-
-module "method_put_tasks_taskId" {
-  source = "../../elements/api_gateway/method"
-
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = module.resource_tasks_taskId.id
-  http_method   = "PUT"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.this.id
-}
-
-module "integration_put_tasks_taskId" {
-  source = "../../elements/api_gateway/integration"
-
-  rest_api_id       = aws_api_gateway_rest_api.this.id
-  resource_id       = module.resource_tasks_taskId.id
-  http_method       = module.method_put_tasks_taskId.http_method
-  lambda_invoke_arn = var.update_task_lambda_invoke_arn
+  http_method       = module.method_delete_tasks_taskId.http_method
+  lambda_invoke_arn = var.delete_task_lambda_invoke_arn
 }

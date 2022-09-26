@@ -10,9 +10,7 @@ exports.handler = (event, context, callback) => {
             userId: event.requestContext.authorizer.claims['cognito:username'],
             taskId: generateUUID(),
             title: event.body.title,
-            isCompletion: false,
-            createdAt: now,
-            updatedAt: now
+            createdAt: now
         }
     }
 

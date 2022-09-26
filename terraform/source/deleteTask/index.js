@@ -6,15 +6,15 @@ exports.handler = (event, context, callback) => {
         TableName: process.env.TABLE_NAME,
         Key: {
             userId: event.requestContext.authorizer.claims['cognito:username'],
-            taskId: event.pathParameters.taskId
+            taskId: event.body.taskId
         }
     }
 
-    docClient.get(params, function(err, data) {
+    docClient.delete(params, function(err, data) {
         if (err) {
             callback(Error(err))
         } else {
-            callback(null, data.Items);
+            callback(null, data)
         }
     })
 }
