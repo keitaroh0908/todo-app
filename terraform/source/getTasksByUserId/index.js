@@ -14,7 +14,17 @@ exports.handler = (event, context, callback) => {
         if (err) {
             callback(Error(err))
         } else {
-            callback(null, data.Items);
+            const response = {
+                statusCode: 200,
+                headers: {
+                    "Access-Control-Allow-Headers" : "*",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "*",
+                    "Access-Control-Expose-Headers": "*"
+                },
+                body: data.Items
+            };
+            callback(null, response);
         }
     })
 }
