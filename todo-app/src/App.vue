@@ -1,17 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Todo App</h1>
+    <div class="add-task-wrapper">
+      <input type="text" v-model="newTaskInput" @keydown.enter="addTask" />
+      <button @click="addTask">Add task</button>
+    </div>
+    <div class="task" v-for="task in tasks" :key="task.id">
+      <span>{{ task.name }}</span>
+      <span class="delete">
+        <button @click="removeTask(task.id)">X</button>
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      newTaskInput: '',
+      tasks: []
+    }
+  },
+  methods: {
+    addTask() {
+      let taskId = Math.floor(Math.random() * (99999999 - 10000000) + 10000000)
+      let newTask = {
+        id: taskId,
+        name: this.newTaskInput
+      }
+
+      this.tasks.push(newTask)
+      this.newTaskInput = ''
+    },
+    removeTask(taskId) {
+      this.tasks = this.tasks.filter(task => task.id !== taskId)
+    }
   }
 }
 </script>
@@ -24,5 +49,32 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+button, input {
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: 1px solid #aaa;
+  margin: 5px;
+}
+
+.add-task-wrapper {
+  display: flex;
+}
+
+.add-task-wrapper input {
+  flex: 1;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eee;
+  border-radius: 5px;
+  margin: 5px 10px;
+  padding: 5px 10px;
 }
 </style>
