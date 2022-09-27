@@ -22,7 +22,7 @@ exports.handler = (event, context, callback) => {
                     "Access-Control-Allow-Methods": "*",
                     "Access-Control-Expose-Headers": "*"
                 },
-                body: data
+                body: JSON.stringify(data)
             };
             callback(null, response)
         }
