@@ -2,11 +2,13 @@ const AWS = require('aws-sdk')
 const docClient = new AWS.DynamoDB.DocumentClient()
 
 exports.handler = (event, context, callback) => {
+    console.log(event.pathParameters)
+    const taskId = event.pathParameters.taskId
     const params = {
         TableName: process.env.TABLE_NAME,
         Key: {
             userId: event.requestContext.authorizer.claims['cognito:username'],
-            taskId: event.body.taskId
+            taskId: taskId
         }
     }
 
@@ -22,7 +24,9 @@ exports.handler = (event, context, callback) => {
                     "Access-Control-Allow-Methods": "*",
                     "Access-Control-Expose-Headers": "*"
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    taskId: taskId
+                })
             };
             callback(null, response)
         }

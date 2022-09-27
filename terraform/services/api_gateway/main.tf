@@ -16,6 +16,10 @@ resource "aws_api_gateway_authorizer" "this" {
 resource "aws_api_gateway_deployment" "this" {
   rest_api_id = aws_api_gateway_rest_api.this.id
 
+  triggers = {
+    redeployment = sha1(file("./services/api_gateway/main.tf"))
+  }
+
   lifecycle {
     create_before_destroy = true
   }
