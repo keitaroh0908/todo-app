@@ -56,7 +56,7 @@ export default {
               'content-type': 'application/json'
             }
           }).then(response => {
-            console.log(response)
+            this.tasks.push(response.data)
           }).catch(error => {
             console.error(error)
           })
