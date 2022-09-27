@@ -35,7 +35,7 @@ export default {
       unsubscribeAuth: undefined
     }
   },
-  async created() {
+  created() {
     this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       this.authState = authState
       this.user = authData
@@ -64,8 +64,8 @@ export default {
 
       this.newTaskInput = ''
     },
-    getTasks: async function() {
-      await Auth.currentSession()
+    getTasks: function() {
+      Auth.currentSession()
         .then(data => {
           console.log(this.newTaskInput)
           const idToken = data.getIdToken().getJwtToken()
@@ -81,7 +81,20 @@ export default {
         })
     },
     removeTask(taskId) {
-      this.tasks = this.tasks.filter(task => task.taskId !== taskId)
+      Auth.currentSession()
+        .then(data => {
+          const idToken = data.getIdToken().getJwtToken()
+          axios.delete(`https://gl0q295fo1.execute-api.ap-northeast-1.amazonaws.com/production/tasks/${taskId}`, {
+            headers: {
+              Authorization: idToken
+            }
+          }).then(response => {
+            console.log(response)
+            this.tasks = this.tasks.filter(task => task.taskId !== response.data.taskId)
+          }).catch(error => {
+            console.error(error)
+          })
+        })
     }
   },
   beforeDestroy() {
