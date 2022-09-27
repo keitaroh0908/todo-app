@@ -10,7 +10,7 @@
         <div class="task" v-for="task in tasks" :key="task.taskId">
           <span>{{ task.title }}</span>
           <span class="delete">
-            <button @click="removeTask(task.id)">X</button>
+            <button @click="removeTask(task.taskId)">X</button>
           </span>
         </div>
       </div>
@@ -81,7 +81,7 @@ export default {
         })
     },
     removeTask(taskId) {
-      this.tasks = this.tasks.filter(task => task.id !== taskId)
+      this.tasks = this.tasks.filter(task => task.taskId !== taskId)
     }
   },
   beforeDestroy() {
