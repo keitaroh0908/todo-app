@@ -4,16 +4,17 @@ const docClient = new AWS.DynamoDB.DocumentClient()
 exports.handler = (event, context, callback) => {
     const now = new Date().toISOString()
     const body = JSON.parse(event.body)
-    console.log(body)
+
+    const item = {
+        userId: event.requestContext.authorizer.claims['cognito:username'],
+        taskId: generateUUID(),
+        title: body.title,
+        createdAt: now
+    }
 
     const params = {
         TableName: process.env.TABLE_NAME,
-        Item: {
-            userId: event.requestContext.authorizer.claims['cognito:username'],
-            taskId: generateUUID(),
-            title: body.title,
-            createdAt: now
-        }
+        Item: item
     }
 
     docClient.put(params, function(err, data) {
@@ -28,7 +29,7 @@ exports.handler = (event, context, callback) => {
                     "Access-Control-Allow-Methods": "*",
                     "Access-Control-Expose-Headers": "*"
                 },
-                body: JSON.stringify(data.Items)
+                body: JSON.stringify(item)
             };
             callback(null, response);
         }
