@@ -34,8 +34,9 @@ module "ecr" {
 module "lambda" {
   source = "./services/lambda"
 
-  account_id          = var.account_id
-  dynamodb_table_name = module.dynamodb.table_name
+  account_id                = var.account_id
+  dynamodb_table_name       = module.dynamodb.table_name
+  api_gateway_execution_arn = module.api_gateway.api_gateway_execution_arn
 }
 
 module "s3" {
