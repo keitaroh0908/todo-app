@@ -35,7 +35,7 @@ export default {
       unsubscribeAuth: undefined
     }
   },
-  created() {
+  async created() {
     this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       this.authState = authState
       this.user = authData
@@ -43,26 +43,38 @@ export default {
     this.getTasks()
   },
   methods: {
-    addTask() {
-      let taskId = Math.floor(Math.random() * (99999999 - 10000000) + 10000000)
-      let newTask = {
-        id: taskId,
-        name: this.newTaskInput
-      }
+    addTask: async function() {
+      await Auth.currentSession()
+        .then(data => {
+          const idToken = data.getIdToken().getJwtToken()
+          const payload = {
+            title: this.newTaskInput
+          }
+          axios.post('https://gl0q295fo1.execute-api.ap-northeast-1.amazonaws.com/production/tasks', payload, {
+            headers: {
+              Authorization: idToken,
+              'content-type': 'application/json'
+            }
+          }).then(response => {
+            console.log(response)
+          }).catch(error => {
+            console.error(error)
+          })
+        })
 
-      this.tasks.push(newTask)
       this.newTaskInput = ''
     },
     getTasks: async function() {
-      Auth.currentSession()
+      await Auth.currentSession()
         .then(data => {
+          console.log(this.newTaskInput)
           const idToken = data.getIdToken().getJwtToken()
           axios.get('https://gl0q295fo1.execute-api.ap-northeast-1.amazonaws.com/production/tasks', {
             headers: {
               Authorization: idToken
             }
           }).then(response => {
-            this.tasks = response
+            this.tasks = response.data
           }).catch(error => {
             console.error(error)
           })
