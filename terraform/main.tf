@@ -23,6 +23,12 @@ module "cognito" {
   source = "./services/cognito"
 }
 
+module "config" {
+  source = "./services/config"
+
+  account_id = var.account_id
+}
+
 module "dynamodb" {
   source = "./services/dynamodb"
 }
