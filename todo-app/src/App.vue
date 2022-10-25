@@ -84,7 +84,7 @@ export default {
       Auth.currentSession()
         .then(data => {
           const idToken = data.getIdToken().getJwtToken()
-          axios.delete(`https://gl0q295fo1.execute-api.ap-northeast-1.amazonaws.com/production/tasks/${taskId}`, {
+          axios.delete(`https://gl0q295fo1.execute-api.ap-northeast-1.amazonaws.com/production/tasks?taskId=${taskId}`, {
             headers: {
               Authorization: idToken
             }
