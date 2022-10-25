@@ -143,22 +143,13 @@ module "integration_post_tasks" {
   lambda_invoke_arn = var.create_task_lambda_invoke_arn
 }
 
-# Path: /tasks/{taskId}
-module "resource_tasks_taskId" {
-  source = "../../elements/api_gateway/resource"
-
-  rest_api_id = aws_api_gateway_rest_api.this.id
-  parent_id   = module.resource_tasks.id
-  path_part   = "{taskId}"
-}
-
 # Method: DELETE
 
-module "method_delete_tasks_taskId" {
+module "method_delete_tasks" {
   source = "../../elements/api_gateway/method"
 
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = module.resource_tasks_taskId.id
+  resource_id   = module.resource_tasks.id
   http_method   = "DELETE"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.this.id
@@ -168,7 +159,40 @@ module "integration_delete_tasks_taskId" {
   source = "../../elements/api_gateway/integration"
 
   rest_api_id       = aws_api_gateway_rest_api.this.id
-  resource_id       = module.resource_tasks_taskId.id
-  http_method       = module.method_delete_tasks_taskId.http_method
+  resource_id       = module.resource_tasks.id
+  http_method       = module.method_delete_tasks.http_method
   lambda_invoke_arn = var.delete_task_lambda_invoke_arn
+}
+
+# Method: OPTIONS
+module "method_options_tasks" {
+  source = "../../elements/api_gateway/preflight/method"
+
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = module.resource_tasks.id
+}
+
+module "method_response_options_task" {
+  source = "../../elements/api_gateway/preflight/method_response"
+
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = module.resource_tasks.id
+  http_method = module.method_options_tasks.http_method
+}
+
+module "integration_response_options_task" {
+  source = "../../elements/api_gateway/preflight/integration_response"
+
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = module.resource_tasks.id
+  http_method = module.method_options_tasks.http_method
+  status_code = module.method_response_options_task.status_code
+}
+
+module "integration_options_task" {
+  source = "../../elements/api_gateway/preflight/integration"
+
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = module.resource_tasks.id
+  http_method = module.method_options_tasks.http_method
 }

@@ -26,8 +26,7 @@ exports.handler = (event, context, callback) => {
                 headers: {
                     "Access-Control-Allow-Headers" : "*",
                     "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "*",
-                    "Access-Control-Expose-Headers": "*"
+                    "Access-Control-Allow-Methods": "GET,POST,DELETE,OPTIONS"
                 },
                 body: JSON.stringify(item)
             };

@@ -2,8 +2,8 @@ const AWS = require('aws-sdk')
 const docClient = new AWS.DynamoDB.DocumentClient()
 
 exports.handler = (event, context, callback) => {
-    console.log(event.pathParameters)
-    const taskId = event.pathParameters.taskId
+    console.log(event.queryStringParameters)
+    const taskId = event.queryStringParameters.taskId
     const params = {
         TableName: process.env.TABLE_NAME,
         Key: {
@@ -21,8 +21,7 @@ exports.handler = (event, context, callback) => {
                 headers: {
                     "Access-Control-Allow-Headers" : "*",
                     "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "*",
-                    "Access-Control-Expose-Headers": "*"
+                    "Access-Control-Allow-Methods": "GET,POST,DELETE,OPTIONS"
                 },
                 body: JSON.stringify({
                     taskId: taskId

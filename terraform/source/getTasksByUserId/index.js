@@ -17,10 +17,9 @@ exports.handler = (event, context, callback) => {
             const response = {
                 statusCode: 200,
                 headers: {
-                    "Access-Control-Allow-Headers" : "*",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "*",
-                    "Access-Control-Expose-Headers": "*"
+                    'Access-Control-Allow-Headers' : '*',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET'
                 },
                 body: JSON.stringify(data.Items)
             };
