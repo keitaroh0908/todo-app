@@ -43,13 +43,6 @@ module "config" {
   account_id = var.account_id
 }
 
-module "cloudfront" {
-  source = "./services/cloudfront"
-
-  bucket_id                   = module.s3.web_bucket_id
-  bucket_regional_domain_name = module.s3.web_bucket_regional_domain_name
-}
-
 module "dynamodb" {
   source = "./services/dynamodb"
 }
@@ -87,8 +80,6 @@ module "route53" {
 
 module "s3" {
   source = "./services/s3"
-
-  cloudfront_origin_access_identity_iam_arn = module.cloudfront.cloudfront_origin_access_identity_iam_arn
 }
 
 module "vpc" {
