@@ -10,6 +10,13 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
+module "alb" {
+  source = "./services/alb"
+
+  public_subnet_ids = module.vpc.production_public_subnet_ids
+  vpc_id            = module.vpc.production_vpc_id
+}
+
 module "api_gateway" {
   source = "./services/api_gateway"
 
@@ -42,6 +49,16 @@ module "dynamodb" {
 
 module "ecr" {
   source = "./services/ecr"
+}
+
+module "ecs" {
+  source = "./services/ecs"
+
+  private_subnet_ids    = module.vpc.production_private_subnet_ids
+  target_group_arn      = module.alb.target_group_arn
+  ecr_repository_url    = module.ecr.repository_url
+  vpc_id                = module.vpc.production_vpc_id
+  alb_security_group_id = module.alb.security_group_id
 }
 
 module "lambda" {
