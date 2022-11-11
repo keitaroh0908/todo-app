@@ -69,6 +69,10 @@ module "lambda" {
   api_gateway_execution_arn = module.api_gateway.api_gateway_execution_arn
 }
 
+module "route53" {
+  source = "./services/route53"
+}
+
 module "s3" {
   source = "./services/s3"
 
