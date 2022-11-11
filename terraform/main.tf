@@ -10,11 +10,18 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
+module "acm" {
+  source = "./services/acm"
+
+  domain_name = var.domain_name
+}
+
 module "alb" {
   source = "./services/alb"
 
-  public_subnet_ids = module.vpc.production_public_subnet_ids
-  vpc_id            = module.vpc.production_vpc_id
+  acm_certificate_arn = module.acm.certificate_arn
+  public_subnet_ids   = module.vpc.production_public_subnet_ids
+  vpc_id              = module.vpc.production_vpc_id
 }
 
 module "api_gateway" {
@@ -71,6 +78,11 @@ module "lambda" {
 
 module "route53" {
   source = "./services/route53"
+
+  alb_dns_name              = module.alb.dns_name
+  alb_zone_id               = module.alb.zone_id
+  domain_name               = var.domain_name
+  domain_validation_options = module.acm.domain_validation_options
 }
 
 module "s3" {
