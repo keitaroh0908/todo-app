@@ -59,6 +59,7 @@ resource "aws_ecs_task_definition" "this" {
           "awslogs-stream-prefix" = "app"
         }
       }
+      readOnlyRootFilesystem = true
     }
   ])
 }
