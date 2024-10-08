@@ -6,6 +6,10 @@ resource "aws_api_gateway_rest_api" "this" {
   }
 }
 
+resource "aws_api_gateway_account" "this" {
+  cloudwatch_role_arn = aws_iam_role.this.arn
+}
+
 resource "aws_api_gateway_authorizer" "this" {
   name          = "CognitoUserPoolAuthorizer"
   type          = "COGNITO_USER_POOLS"
@@ -62,31 +66,9 @@ resource "aws_iam_role" "this" {
   })
 }
 
-resource "aws_iam_policy" "this" {
-  name = "api_gateway_logging_policy"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:DescribeLogGroups",
-          "logs:DescribeLogStreams",
-          "logs:PutLogEvents",
-          "logs:GetLogEvents",
-          "logs:FilterLogEvents"
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      }
-    ]
-  })
-}
-
 resource "aws_iam_role_policy_attachment" "this" {
   role       = aws_iam_role.this.name
-  policy_arn = aws_iam_policy.this.arn
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
 }
 
 resource "aws_cloudwatch_log_group" "this" {

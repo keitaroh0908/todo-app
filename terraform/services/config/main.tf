@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-  bucket = "config.graduation-thesis.bs219031.sun.ac.jp"
+  bucket = "config.graduation-thesis.mc123004.sun.ac.jp"
 }
 
 resource "aws_s3_bucket_policy" "this" {

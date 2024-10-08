@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "terraform.graduation-thesis.bs219031.sun.ac.jp"
+    bucket = "terraform-mc123004-sun-ac-jp"
     key    = "terraform.tfstate"
     region = "ap-northeast-1"
   }
