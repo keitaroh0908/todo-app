@@ -11,11 +11,11 @@ Vue.config.ignoredElements = [/amplify-\w*/]
 
 Amplify.configure({
   Auth: {
-    identityPoolId: 'ap-northeast-1:87111808-c1cd-4d75-8cff-6a85646f5934',
+    identityPoolId: 'ap-northeast-1:5f1ad0f8-74cb-4283-81f9-93512c44307c',
     region: 'ap-northeast-1',
     identityPoolRegion: 'ap-northeast-1',
-    userPoolId: 'ap-northeast-1_BXhWUbfqi',
-    userPoolWebClientId: '1l8a1k0hvthobrnuj4l22i1skm'
+    userPoolId: 'ap-northeast-1_XwVhHrxhp',
+    userPoolWebClientId: '3nk6n6nqsne58b3nf2f1ttn2f0'
   }
 })
 

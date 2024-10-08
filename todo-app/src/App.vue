@@ -50,7 +50,7 @@ export default {
           const payload = {
             title: this.newTaskInput
           }
-          axios.post('https://gl0q295fo1.execute-api.ap-northeast-1.amazonaws.com/production/tasks', payload, {
+          axios.post('https://6ftioufet6.execute-api.ap-northeast-1.amazonaws.com/production/tasks', payload, {
             headers: {
               Authorization: idToken,
               'content-type': 'application/json'
@@ -69,7 +69,7 @@ export default {
         .then(data => {
           console.log(this.newTaskInput)
           const idToken = data.getIdToken().getJwtToken()
-          axios.get('https://gl0q295fo1.execute-api.ap-northeast-1.amazonaws.com/production/tasks', {
+          axios.get('https://6ftioufet6.execute-api.ap-northeast-1.amazonaws.com/production/tasks', {
             headers: {
               Authorization: idToken
             }
@@ -84,7 +84,7 @@ export default {
       Auth.currentSession()
         .then(data => {
           const idToken = data.getIdToken().getJwtToken()
-          axios.delete(`https://gl0q295fo1.execute-api.ap-northeast-1.amazonaws.com/production/tasks?taskId=${taskId}`, {
+          axios.delete(`https://6ftioufet6.execute-api.ap-northeast-1.amazonaws.com/production/tasks?taskId=${taskId}`, {
             headers: {
               Authorization: idToken
             }
