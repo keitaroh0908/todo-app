@@ -3,6 +3,32 @@ resource "aws_alb" "this" {
   subnets                    = var.public_subnet_ids
   security_groups            = [aws_security_group.this.id]
   drop_invalid_header_fields = true
+
+  access_logs {
+    enabled = true
+    bucket  = aws_s3_bucket.this.bucket
+  }
+}
+
+resource "aws_s3_bucket" "this" {
+  bucket = "alb-log-mc123004-sun-ac-jp"
+}
+
+resource "aws_s3_bucket_policy" "this" {
+  bucket = aws_s3_bucket.this.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::582318560864:root"
+        }
+        Action   = "s3:PutObject"
+        Resource = "${aws_s3_bucket.this.arn}/AWSLogs/${var.aws_account_id}/*"
+      }
+    ]
+  })
 }
 
 resource "aws_alb_target_group" "this" {

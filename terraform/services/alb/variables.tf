@@ -1,3 +1,7 @@
+variable "aws_account_id" {
+  type = string
+}
+
 variable "acm_certificate_arn" {
   type = string
 }
