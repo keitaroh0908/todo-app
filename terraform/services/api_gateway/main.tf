@@ -77,8 +77,7 @@ resource "aws_iam_role_policy_attachment" "this" {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
-  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.this.id}/production"
-  retention_in_days = 7
+  name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.this.id}/production"
 }
 
 # Path: /tasks
