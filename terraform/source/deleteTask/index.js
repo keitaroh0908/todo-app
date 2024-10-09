@@ -1,5 +1,7 @@
-const AWS = require('aws-sdk')
-const docClient = new AWS.DynamoDB.DocumentClient()
+const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
+const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+
+const docClient = DynamoDBDocument.from(new DynamoDB())
 
 exports.handler = (event, context, callback) => {
     console.log(event.queryStringParameters)
