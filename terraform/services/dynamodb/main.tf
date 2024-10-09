@@ -15,6 +15,10 @@ resource "aws_dynamodb_table" "this" {
     name = "taskId"
     type = "S"
   }
+
+  point_in_time_recovery {
+    enabled = true
+  }
 }
 
 resource "aws_appautoscaling_target" "read_capacity_units" {
