@@ -21,6 +21,38 @@ resource "aws_dynamodb_table" "this" {
   }
 }
 
+resource "aws_backup_plan" "this" {
+  name = "${aws_dynamodb_table.this.name}-table-backup-plan"
+
+  rule {
+    rule_name         = "backup-rule"
+    target_vault_name = aws_backup_vault.this.name
+    schedule          = "cron(0 12 * * ? *)"
+    lifecycle {
+      delete_after = 30
+    }
+  }
+}
+
+resource "aws_backup_vault" "this" {
+  name        = "${aws_dynamodb_table.this.name}-table-backup-vault"
+  kms_key_arn = aws_kms_key.this.arn
+}
+
+resource "aws_kms_key" "this" {
+  deletion_window_in_days = 7
+}
+
+resource "aws_backup_selection" "this" {
+  name         = "dynamodb-tables-backup-selection"
+  plan_id      = aws_backup_plan.this.id
+  iam_role_arn = var.backup_iam_role_arn
+
+  resources = [
+    aws_dynamodb_table.this.arn
+  ]
+}
+
 resource "aws_appautoscaling_target" "read_capacity_units" {
   service_namespace  = "dynamodb"
   resource_id        = "table/${aws_dynamodb_table.this.name}"

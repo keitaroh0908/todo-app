@@ -41,6 +41,10 @@ module "api_gateway" {
   waf_web_acl_arn                        = module.waf.web_acl_arn
 }
 
+module "backup" {
+  source = "./services/backup"
+}
+
 module "cognito" {
   source = "./services/cognito"
 }
@@ -53,6 +57,8 @@ module "config" {
 
 module "dynamodb" {
   source = "./services/dynamodb"
+
+  backup_iam_role_arn = module.backup.iam_role_arn
 }
 
 module "ecr" {
