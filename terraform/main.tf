@@ -29,6 +29,7 @@ module "alb" {
   acm_certificate_arn = module.acm.certificate_arn
   public_subnet_ids   = module.vpc.production_public_subnet_ids
   vpc_id              = module.vpc.production_vpc_id
+  waf_web_acl_arn     = module.waf.web_acl_arn
 }
 
 module "api_gateway" {

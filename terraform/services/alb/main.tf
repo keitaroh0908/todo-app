@@ -45,6 +45,11 @@ resource "aws_alb_listener" "https" {
   }
 }
 
+resource "aws_wafv2_web_acl_association" "this" {
+  resource_arn = aws_alb.this.arn
+  web_acl_arn  = var.waf_web_acl_arn
+}
+
 resource "aws_security_group" "this" {
   name   = "alb"
   vpc_id = var.vpc_id
