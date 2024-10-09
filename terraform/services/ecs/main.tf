@@ -1,5 +1,10 @@
 resource "aws_ecs_cluster" "this" {
   name = "graduation-thesis"
+
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
 }
 
 resource "aws_ecs_service" "this" {
