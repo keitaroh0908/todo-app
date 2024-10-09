@@ -1,7 +1,8 @@
 resource "aws_alb" "this" {
-  name            = "app"
-  subnets         = var.public_subnet_ids
-  security_groups = [aws_security_group.this.id]
+  name                       = "app"
+  subnets                    = var.public_subnet_ids
+  security_groups            = [aws_security_group.this.id]
+  drop_invalid_header_fields = true
 }
 
 resource "aws_alb_target_group" "this" {
