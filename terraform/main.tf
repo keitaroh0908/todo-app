@@ -38,6 +38,7 @@ module "api_gateway" {
   get_tasks_by_user_id_lambda_invoke_arn = module.lambda.get_tasks_by_user_id_invoke_arn
   create_task_lambda_invoke_arn          = module.lambda.create_task_invoke_arn
   delete_task_lambda_invoke_arn          = module.lambda.delete_task_invoke_arn
+  waf_web_acl_arn                        = module.waf.web_acl_arn
 }
 
 module "cognito" {
@@ -91,4 +92,8 @@ module "s3" {
 
 module "vpc" {
   source = "./services/vpc"
+}
+
+module "waf" {
+  source = "./services/waf"
 }

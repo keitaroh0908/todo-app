@@ -50,6 +50,11 @@ resource "aws_api_gateway_method_settings" "this" {
   }
 }
 
+resource "aws_wafv2_web_acl_association" "this" {
+  resource_arn = aws_api_gateway_stage.this.arn
+  web_acl_arn  = var.waf_web_acl_arn
+}
+
 resource "aws_iam_role" "this" {
   name = "api_gateway_logging_role"
   assume_role_policy = jsonencode({

@@ -17,3 +17,7 @@ variable "create_task_lambda_invoke_arn" {
 variable "delete_task_lambda_invoke_arn" {
   type = string
 }
+
+variable "waf_web_acl_arn" {
+  type = string
+}
