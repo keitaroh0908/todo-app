@@ -1,7 +1,7 @@
 resource "aws_lambda_function" "this" {
   function_name    = var.function_name
   role             = aws_iam_role.this.arn
-  runtime          = "nodejs16.x"
+  runtime          = "nodejs18.x"
   handler          = "index.handler"
   timeout          = 10
   filename         = data.archive_file.this.output_path
