@@ -9,3 +9,7 @@ output "production_public_subnet_ids" {
 output "production_private_subnet_ids" {
   value = module.production_private_subnet.ids
 }
+
+output "production_cidr_block" {
+  value = module.production_vpc.cidr_block
+}

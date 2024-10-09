@@ -121,3 +121,9 @@ resource "aws_route_table_association" "development_private" {
   route_table_id = module.development_private_route_table.id
   subnet_id      = element(module.development_private_subnet.ids, count.index)
 }
+
+resource "aws_vpc_endpoint" "this" {
+  vpc_id          = module.production_vpc.id
+  service_name    = "com.amazonaws.ap-northeast-1.dynamodb"
+  route_table_ids = [module.production_private_route_table.id]
+}

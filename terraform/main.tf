@@ -83,6 +83,9 @@ module "lambda" {
   account_id                = var.account_id
   dynamodb_table_name       = module.dynamodb.table_name
   api_gateway_execution_arn = module.api_gateway.api_gateway_execution_arn
+  vpc_id                    = module.vpc.production_vpc_id
+  vpc_subnet_ids            = module.vpc.production_private_subnet_ids
+  vpc_cidr_block            = module.vpc.production_cidr_block
 }
 
 module "route53" {

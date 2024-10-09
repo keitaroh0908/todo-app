@@ -12,6 +12,11 @@ resource "aws_lambda_function" "this" {
       TABLE_NAME = var.dynamodb_table_name
     }
   }
+
+  vpc_config {
+    subnet_ids         = var.vpc_subnet_ids
+    security_group_ids = [var.security_group_id]
+  }
 }
 
 resource "aws_lambda_permission" "this" {
@@ -85,6 +90,27 @@ resource "aws_iam_policy" "dynamodb" {
   })
 }
 
+resource "aws_iam_policy" "vpc" {
+  name = "${var.function_name}FunctionVPCPolicy"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ec2:CreateNetworkInterface",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DescribeSubnets",
+          "ec2:DeleteNetworkInterface",
+          "ec2:AssignPrivateIpAddresses",
+          "ec2:UnassignPrivateIpAddresses"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role_policy_attachment" "cloudwatch" {
   role       = aws_iam_role.this.name
   policy_arn = aws_iam_policy.cloudwatch.arn
@@ -93,4 +119,9 @@ resource "aws_iam_role_policy_attachment" "cloudwatch" {
 resource "aws_iam_role_policy_attachment" "dynamodb" {
   role       = aws_iam_role.this.name
   policy_arn = aws_iam_policy.dynamodb.arn
+}
+
+resource "aws_iam_role_policy_attachment" "vpc" {
+  role       = aws_iam_role.this.name
+  policy_arn = aws_iam_policy.vpc.arn
 }

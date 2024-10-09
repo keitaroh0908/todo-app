@@ -19,3 +19,11 @@ variable "dynamodb_table_name" {
 variable "api_gateway_execution_arn" {
   type = string
 }
+
+variable "vpc_subnet_ids" {
+  type = list(string)
+}
+
+variable "security_group_id" {
+  type = string
+}
