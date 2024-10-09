@@ -12,6 +12,8 @@ RUN yarn build
 
 FROM --platform=linux/amd64 nginx:stable-alpine as runner
 
+VOLUME /var/cache/nginx /var/run /etc/nginx/conf.d
+
 COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
 
