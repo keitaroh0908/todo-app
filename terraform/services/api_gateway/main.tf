@@ -30,9 +30,10 @@ resource "aws_api_gateway_deployment" "this" {
 }
 
 resource "aws_api_gateway_stage" "this" {
-  stage_name    = "production"
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  deployment_id = aws_api_gateway_deployment.this.id
+  stage_name           = "production"
+  rest_api_id          = aws_api_gateway_rest_api.this.id
+  deployment_id        = aws_api_gateway_deployment.this.id
+  xray_tracing_enabled = true
 
   depends_on = [
     aws_cloudwatch_log_group.this
@@ -45,8 +46,9 @@ resource "aws_api_gateway_method_settings" "this" {
   method_path = "*/*"
 
   settings {
-    metrics_enabled = true
-    logging_level   = "INFO"
+    logging_level      = "INFO"
+    metrics_enabled    = true
+    data_trace_enabled = true
   }
 }
 
