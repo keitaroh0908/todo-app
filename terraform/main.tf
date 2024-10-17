@@ -97,10 +97,6 @@ module "route53" {
   domain_validation_options = module.acm.domain_validation_options
 }
 
-module "s3" {
-  source = "./services/s3"
-}
-
 module "vpc" {
   source = "./services/vpc"
 }
