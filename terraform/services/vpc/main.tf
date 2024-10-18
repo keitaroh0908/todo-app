@@ -1,13 +1,15 @@
 module "production_vpc" {
   source = "../../elements/vpc/vpc"
 
-  cidr_block = "10.0.0.0/16"
+  cidr_block  = "10.0.0.0/16"
+  environment = "production"
 }
 
 module "development_vpc" {
   source = "../../elements/vpc/vpc"
 
-  cidr_block = "10.10.0.0/16"
+  cidr_block  = "10.10.0.0/16"
+  environment = "development"
 }
 
 module "production_public_subnet" {
