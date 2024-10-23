@@ -1,13 +1,13 @@
-variable "aws_account_id" {
-  type = string
-}
-
 variable "acm_certificate_arn" {
   type = string
 }
 
 variable "public_subnet_ids" {
   type = list(string)
+}
+
+variable "s3_access_log_bucket_name" {
+  type = string
 }
 
 variable "vpc_id" {

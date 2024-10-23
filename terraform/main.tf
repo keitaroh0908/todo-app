@@ -17,6 +17,11 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
+provider "aws" {
+  alias  = "virginia"
+  region = "us-east-1"
+}
+
 module "acm" {
   source = "./services/acm"
 
@@ -26,11 +31,11 @@ module "acm" {
 module "alb" {
   source = "./services/alb"
 
-  aws_account_id      = var.account_id
-  acm_certificate_arn = module.acm.certificate_arn
-  public_subnet_ids   = module.vpc.production_public_subnet_ids
-  vpc_id              = module.vpc.production_vpc_id
-  waf_web_acl_arn     = module.waf.web_acl_arn
+  acm_certificate_arn       = module.acm.certificate_arn
+  public_subnet_ids         = module.vpc.production_public_subnet_ids
+  s3_access_log_bucket_name = module.s3.alb_log_bucket_name
+  vpc_id                    = module.vpc.production_vpc_id
+  waf_web_acl_arn           = module.waf.web_acl_arn
 }
 
 module "api_gateway" {
@@ -54,7 +59,7 @@ module "cognito" {
 module "config" {
   source = "./services/config"
 
-  account_id = var.account_id
+  s3_delivery_channel_bucket_name = module.s3.config_bucket_name
 }
 
 module "dynamodb" {
@@ -95,6 +100,25 @@ module "route53" {
   alb_zone_id               = module.alb.zone_id
   domain_name               = var.domain_name
   domain_validation_options = module.acm.domain_validation_options
+}
+
+module "s3" {
+  source = "./services/s3"
+  providers = {
+    aws = aws
+  }
+
+  aws_account_id             = var.account_id
+  alb_log_replica_bucket_arn = module.s3_virginia.alb_log_replica_bucket_arn
+  config_replica_bucket_arn  = module.s3_virginia.config_replica_bucket_arn
+}
+
+module "s3_virginia" {
+  source = "./services/s3_virginia"
+
+  providers = {
+    aws = aws.virginia
+  }
 }
 
 module "vpc" {

@@ -7,44 +7,8 @@ resource "aws_alb" "this" {
 
   access_logs {
     enabled = true
-    bucket  = aws_s3_bucket.this.bucket
+    bucket  = var.s3_access_log_bucket_name
   }
-}
-
-resource "aws_s3_bucket" "this" {
-  bucket = "alb-log-mc123004-sun-ac-jp"
-}
-
-resource "aws_s3_bucket_policy" "this" {
-  bucket = aws_s3_bucket.this.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid       = "EnforceSSL"
-        Effect    = "Deny"
-        Principal = "*"
-        Action    = "s3:*"
-        Resource = [
-          aws_s3_bucket.this.arn,
-          "${aws_s3_bucket.this.arn}/*"
-        ]
-        Condition = {
-          Bool = {
-            "aws:SecureTransport" = "false"
-          }
-        }
-      },
-      {
-        Effect = "Allow"
-        Principal = {
-          AWS = "arn:aws:iam::582318560864:root"
-        }
-        Action   = "s3:PutObject"
-        Resource = "${aws_s3_bucket.this.arn}/AWSLogs/${var.aws_account_id}/*"
-      }
-    ]
-  })
 }
 
 resource "aws_alb_target_group" "this" {
