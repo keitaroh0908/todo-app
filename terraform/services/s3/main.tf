@@ -43,6 +43,17 @@ resource "aws_s3_bucket_policy" "alb_log" {
   })
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "alb_log" {
+  bucket = aws_s3_bucket.alb_log.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.this.arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
 resource "aws_s3_bucket_versioning" "alb_log" {
   bucket = aws_s3_bucket.alb_log.id
   versioning_configuration {
@@ -217,6 +228,17 @@ resource "aws_s3_bucket_public_access_block" "config" {
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "config" {
+  bucket = aws_s3_bucket.config.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.this.arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
 resource "aws_s3_bucket_versioning" "config" {
   bucket = aws_s3_bucket.config.id
   versioning_configuration {
@@ -309,4 +331,10 @@ resource "aws_iam_role_policy" "config" {
       }
     ]
   })
+}
+
+resource "aws_kms_key" "this" {
+  description             = "KMS key for S3 bucket encryption"
+  deletion_window_in_days = 10
+  enable_key_rotation     = true
 }
