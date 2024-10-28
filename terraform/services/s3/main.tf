@@ -50,6 +50,24 @@ resource "aws_s3_bucket_versioning" "alb_log" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "alb_log" {
+  bucket = aws_s3_bucket.alb_log.id
+
+  rule {
+    id     = "MoveToGlacierAndDelete"
+    status = "Enabled"
+
+    transition {
+      days          = 60
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = 365
+    }
+  }
+}
+
 resource "aws_s3_bucket_replication_configuration" "alb_log" {
   role   = aws_iam_role.alb_log.arn
   bucket = aws_s3_bucket.alb_log.id
