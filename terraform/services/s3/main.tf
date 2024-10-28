@@ -68,6 +68,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "alb_log" {
   }
 }
 
+resource "aws_s3_bucket_object_lock_configuration" "alb_log" {
+  bucket = aws_s3_bucket.alb_log.id
+
+  rule {
+    default_retention {
+      mode = "COMPLIANCE"
+      days = 365
+    }
+  }
+}
+
 resource "aws_s3_bucket_replication_configuration" "alb_log" {
   role   = aws_iam_role.alb_log.arn
   bucket = aws_s3_bucket.alb_log.id
@@ -210,6 +221,17 @@ resource "aws_s3_bucket_versioning" "config" {
   bucket = aws_s3_bucket.config.id
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_object_lock_configuration" "config" {
+  bucket = aws_s3_bucket.config.id
+
+  rule {
+    default_retention {
+      mode = "GOVERNANCE"
+      days = 180
+    }
   }
 }
 
