@@ -2,6 +2,10 @@ resource "aws_vpc" "this" {
   cidr_block = var.cidr_block
 }
 
+resource "aws_default_security_group" "this" {
+  vpc_id = aws_vpc.this.id
+}
+
 resource "aws_flow_log" "name" {
   log_destination = aws_cloudwatch_log_group.this.arn
   iam_role_arn    = aws_iam_role.this.arn
