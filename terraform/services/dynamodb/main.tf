@@ -42,6 +42,7 @@ resource "aws_backup_vault" "this" {
 
 resource "aws_kms_key" "this" {
   deletion_window_in_days = 7
+  enable_key_rotation     = true
 }
 
 resource "aws_backup_selection" "this" {
