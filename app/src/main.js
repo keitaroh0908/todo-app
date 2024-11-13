@@ -5,17 +5,18 @@ import {
   applyPolyfills,
   defineCustomElements
 } from '@aws-amplify/ui-components/loader'
+import 'dotenv/config'
 
 Vue.config.productionTip = false
 Vue.config.ignoredElements = [/amplify-\w*/]
 
 Amplify.configure({
   Auth: {
-    identityPoolId: 'ap-northeast-1:5f1ad0f8-74cb-4283-81f9-93512c44307c',
-    region: 'ap-northeast-1',
-    identityPoolRegion: 'ap-northeast-1',
-    userPoolId: 'ap-northeast-1_XwVhHrxhp',
-    userPoolWebClientId: '3nk6n6nqsne58b3nf2f1ttn2f0'
+    identityPoolId: process.env.COGNITO_IDENTITY_POOL_ID,
+    region: process.env.AWS_REGION,
+    identityPoolRegion: process.env.AWS_REGION,
+    userPoolId: process.env.COGNITO_USER_POOL_ID,
+    userPoolWebClientId: process.env.COGNITO_USER_POOL_WEB_CLIENT_ID
   }
 })
 

@@ -23,6 +23,7 @@
 import { Auth } from 'aws-amplify'
 import { onAuthUIStateChange } from '@aws-amplify/ui-components'
 import axios from 'axios'
+import 'dotenv/config'
 
 export default {
   name: 'App',
@@ -50,7 +51,7 @@ export default {
           const payload = {
             title: this.newTaskInput
           }
-          axios.post('https://6ftioufet6.execute-api.ap-northeast-1.amazonaws.com/production/tasks', payload, {
+          axios.post(process.env.API_BASE_URL, payload, {
             headers: {
               Authorization: idToken,
               'content-type': 'application/json'
@@ -69,7 +70,7 @@ export default {
         .then(data => {
           console.log(this.newTaskInput)
           const idToken = data.getIdToken().getJwtToken()
-          axios.get('https://6ftioufet6.execute-api.ap-northeast-1.amazonaws.com/production/tasks', {
+          axios.get(process.env.API_BASE_URL, {
             headers: {
               Authorization: idToken
             }
@@ -84,7 +85,7 @@ export default {
       Auth.currentSession()
         .then(data => {
           const idToken = data.getIdToken().getJwtToken()
-          axios.delete(`https://6ftioufet6.execute-api.ap-northeast-1.amazonaws.com/production/tasks?taskId=${taskId}`, {
+          axios.delete(`${process.env.API_BASE_URL}?taskId=${taskId}`, {
             headers: {
               Authorization: idToken
             }
